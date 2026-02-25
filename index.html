@@ -1,196 +1,496 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 삼성라이온즈 성적 예측 보고서</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026 삼성 라이온즈 성적 예측 보고서</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6fa;
-  padding: 40px;
-  line-height: 1.6;
-}
+  :root{
+    --bg:#0b1220;
+    --card:#0f1a33cc;
+    --card2:#0f1a33;
+    --line:#1f2f58;
+    --text:#eaf0ff;
+    --muted:#b7c6ff;
+    --brand:#1e5cff;   /* Lions blue 느낌 */
+    --brand2:#7aa2ff;
+    --good:#2bd576;
+    --warn:#ffb020;
+    --bad:#ff5c7a;
+    --shadow: 0 18px 45px rgba(0,0,0,.35);
+    --radius:16px;
+  }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
+    background:
+      radial-gradient(1200px 700px at 10% 10%, rgba(30,92,255,.35), transparent 55%),
+      radial-gradient(1000px 600px at 90% 0%, rgba(122,162,255,.22), transparent 55%),
+      radial-gradient(900px 700px at 60% 100%, rgba(43,213,118,.08), transparent 60%),
+      linear-gradient(180deg, #081026, #070b14 60%, #05060b);
+    color:var(--text);
+    padding: 28px 18px 60px;
+  }
 
-h1 {
-  text-align: center;
-  color: #0047A0;
-}
+  .wrap{max-width:1100px; margin:0 auto;}
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; padding:18px 18px; border:1px solid var(--line);
+    background: linear-gradient(180deg, rgba(15,26,51,.86), rgba(15,26,51,.55));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    position: sticky; top: 14px; z-index: 10;
+    backdrop-filter: blur(10px);
+  }
 
-h2 {
-  margin-top: 40px;
-  color: #003070;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 5px;
-}
+  .brand{
+    display:flex; align-items:center; gap:12px; min-width: 260px;
+  }
+  .logo{
+    width:42px; height:42px; border-radius: 12px;
+    background: radial-gradient(circle at 30% 30%, #7aa2ff, #1e5cff 55%, #12339b);
+    box-shadow: 0 10px 22px rgba(30,92,255,.35);
+    display:grid; place-items:center;
+    font-weight:900;
+    letter-spacing:.5px;
+  }
+  .titleBlock .h1{
+    font-size: 16px; font-weight: 850; line-height: 1.1;
+  }
+  .titleBlock .sub{
+    font-size: 12px; color: var(--muted); margin-top: 4px;
+  }
 
-textarea {
-  width: 100%;
-  min-height: 120px;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 15px;
-}
+  .actions{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .btn{
+    appearance:none; border:1px solid var(--line);
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 12px;
+    cursor:pointer;
+    font-weight: 700;
+    transition: transform .08s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(122,162,255,.5); }
+  .btn:active{ transform: translateY(1px); }
+  .btn.primary{
+    border-color: rgba(30,92,255,.65);
+    background: linear-gradient(180deg, rgba(30,92,255,.95), rgba(18,51,155,.95));
+    box-shadow: 0 10px 22px rgba(30,92,255,.25);
+  }
+  .btn.primary:hover{ border-color: rgba(122,162,255,.9); }
 
-input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 8px;
-  font-size: 15px;
-}
+  .grid{
+    margin-top: 18px;
+    display:grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 18px;
+  }
+  @media (max-width: 980px){
+    .grid{ grid-template-columns: 1fr; }
+    .brand{ min-width: auto; }
+  }
 
-button {
-  padding: 10px 20px;
-  margin-top: 20px;
-  background: #0047A0;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+  .card{
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(15,26,51,.78), rgba(15,26,51,.52));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px;
+    backdrop-filter: blur(10px);
+  }
+  .card h2{
+    margin: 0 0 10px;
+    font-size: 15px;
+    letter-spacing: .2px;
+  }
+  .metaRow{
+    display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
+  }
+  .pill{
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.05);
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .pill b{ color: var(--text); }
 
-button:hover {
-  opacity: 0.9;
-}
+  .kpis{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .kpi{
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.04);
+    border-radius: 14px;
+    padding: 12px;
+  }
+  .kpi .label{ font-size: 12px; color: var(--muted); }
+  .kpi .value{ font-size: 20px; font-weight: 900; margin-top: 6px; }
+  .kpi .hint{ font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-.status {
-  margin-top: 15px;
-  color: green;
-  font-weight: bold;
-}
-.section {
-  margin-top: 25px;
-}
+  .scoreRow{
+    margin-top: 12px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .bar{
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.04);
+    border-radius: 14px;
+    padding: 10px 12px;
+  }
+  .barTop{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .track{
+    width:100%; height: 10px;
+    background: rgba(255,255,255,.06);
+    border-radius: 999px;
+    overflow:hidden;
+  }
+  .fill{
+    height:100%;
+    background: linear-gradient(90deg, rgba(30,92,255,.9), rgba(122,162,255,.9));
+    width: 50%;
+  }
+
+  .field{
+    margin-top: 12px;
+  }
+  label{
+    display:block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  textarea, input{
+    width:100%;
+    border:1px solid var(--line);
+    background: rgba(5,8,16,.55);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 12px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  textarea{
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+  textarea:focus, input:focus{
+    border-color: rgba(122,162,255,.75);
+    background: rgba(5,8,16,.72);
+  }
+
+  .twoCol{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 820px){
+    .twoCol{ grid-template-columns: 1fr; }
+  }
+
+  .tags{
+    display:flex; flex-wrap:wrap; gap:8px; margin-top: 8px;
+  }
+  .tag{
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.05);
+  }
+  .tag.good{ border-color: rgba(43,213,118,.35); color: #bff3d7; }
+  .tag.warn{ border-color: rgba(255,176,32,.35); color: #ffe1ad; }
+  .tag.bad{ border-color: rgba(255,92,122,.35); color: #ffc0cc; }
+
+  .footer{
+    margin-top: 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12px;
+    opacity: .95;
+  }
+  .status{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #bff3d7;
+  }
+  .danger{ color: #ffc0cc; }
 </style>
 </head>
 
 <body>
-
-<div class="container">
-<h1>2026 시즌 삼성라이온즈 성적 예측 보고서</h1>
-
-<h2>📊 1. 시즌 종합 전망</h2>
-<textarea id="overview">
-삼성 라이온즈는 2026 시즌 상위권 경쟁이 가능한 전력을 갖추고 있다.
-타선 중심의 파괴력은 리그 상위권이며, 선발진 안정성도 일정 수준 확보되어 있다.
-다만 시즌 성적의 최종 성패는 불펜 안정화 여부에 달려 있다.
-</textarea>
-
-<h2>⚾ 2. 전력 분석</h2>
-<div class="section">
-<strong>강점</strong>
-<textarea id="strength">
-- 중심 타선의 장타력
-- 상위 타순 출루 능력
-- 득점 생산 구조 안정
-- 선발 1~2선발 경쟁력
-</textarea>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="emblem">
+            <div class="emblem-inner">
+                 <div class="emblem-top">SAMSUNG</div>
+                  <div class="emblem-main">LIONS</div>
+                  <div class="emblem-year">2026 REPORT</div>
+  </div>
 </div>
+        <div class="titleBlock">
+          <div class="h1">2026 시즌 삼성 라이온즈 성적 예측 보고서</div>
+          <div class="sub">전력 요약 · 예상 순위 · 시나리오 · 우승 가능성 · 기대 요소</div>
+        </div>
+      </div>
 
-<div class="section">
-<strong>약점</strong>
-<textarea id="weakness">
-- 불펜 기복
-- 접전 경기 후반 운영
-- 시즌 중 부상 리스크
-</textarea>
-</div>
+      <div class="actions">
+        <button class="btn" id="btnRefresh" title="DB에서 다시 불러오기">새로 불러오기</button>
+        <button class="btn" id="btnPrint" title="PDF로 저장(인쇄)">PDF 저장</button>
+        <button class="btn primary" onclick="save()">저장</button>
+      </div>
+    </header>
 
-<h2>🔮 3. 예상 순위 및 시나리오</h2>
-<input id="rank" value="3~5위권 (와일드카드~준PO 예상)">
+    <div class="grid">
+      <!-- Left: Editor -->
+      <section class="card">
+        <h2>✍️ 보고서 편집</h2>
 
-<textarea id="scenario">
-[Best Scenario]
-불펜 안정 + 선발 이닝 증가 → 1~2위권 PO 직행
+        <div class="field">
+          <label>1) 시즌 종합 전망</label>
+          <textarea id="overview"></textarea>
+        </div>
 
-[Base Scenario]
-타선 유지 + 불펜 평균 수준 → 3~5위권
+        <div class="twoCol">
+          <div class="field">
+            <label>2) 강점</label>
+            <textarea id="strength"></textarea>
+          </div>
+          <div class="field">
+            <label>3) 약점</label>
+            <textarea id="weakness"></textarea>
+          </div>
+        </div>
 
-[Worst Scenario]
-불펜 붕괴 + 부상 겹침 → 6~8위권
-</textarea>
+        <div class="field">
+          <label>4) 예상 순위 (한 줄)</label>
+          <input id="rank" placeholder="예: 3~5위권 (와일드카드~준PO 예상)" />
+        </div>
 
-<h2>🏆 4. 우승 가능성 분석</h2>
-<textarea id="championship">
-LG, SSG 등 기존 강팀 대비 절대적 우위라고 할 수 있기에,
-포스트시즌 진출은 사실상 확정이다.
-우승 확률은 '최고 수준'으로 평가된다.
-</textarea>
+        <div class="field">
+          <label>5) 시나리오 (Best/Base/Worst)</label>
+          <textarea id="scenario"></textarea>
+        </div>
 
-<h2>⭐ 5. 기대 선수 및 핵심 변수</h2>
-<textarea id="players">
-- 중심 타선 핵심 타자 (장타 생산 유지 여부)
-- 1~2선발 (QS 비율 중요)
-- 마무리 투수 (7~9회 안정성)
-- 젊은 불펜 자원 성장 여부
-</textarea>
+        <div class="field">
+          <label>6) 우승 가능성 분석</label>
+          <textarea id="championship"></textarea>
+        </div>
 
-<button onclick="save()">저장하기</button>
-<div class="status" id="status"></div>
+        <div class="field">
+          <label>7) 기대 선수 / 핵심 변수</label>
+          <textarea id="players"></textarea>
+        </div>
 
-</div>
+        <div class="status" id="status"></div>
+        <div class="status danger" id="err"></div>
+      </section>
+
+      <!-- Right: Summary / KPI -->
+      <aside class="card">
+        <h2>📌 한 눈에 보기</h2>
+        <div class="tags">
+          <span class="tag good">강점: 타선</span>
+          <span class="tag good">강점: 득점 생산</span>
+          <span class="tag warn">변수: 불펜</span>
+          <span class="tag warn">변수: 부상/외인</span>
+        </div>
+
+        <div class="metaRow">
+          <span class="pill">예상 순위: <b id="rankPreview">-</b></span>
+          <span class="pill">PO 진출: <b>상대적으로 높음</b></span>
+          <span class="pill">우승: <b>변수형</b></span>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">종합 전력(가늠)</div>
+            <div class="value" id="kpiOverall">B+</div>
+            <div class="hint">타선 우위 + 운영 변수</div>
+          </div>
+          <div class="kpi">
+            <div class="label">우승 가능성(가늠)</div>
+            <div class="value" id="kpiTitleOdds">중간</div>
+            <div class="hint">PO 진출 후 업셋</div>
+          </div>
+          <div class="kpi">
+            <div class="label">PO 가능성(가늠)</div>
+            <div class="value" id="kpiPOOdds">높음</div>
+            <div class="hint">상위권 경쟁자</div>
+          </div>
+          <div class="kpi">
+            <div class="label">핵심 변수</div>
+            <div class="value" id="kpiKeyVar">불펜</div>
+            <div class="hint">접전 승률 좌우</div>
+          </div>
+        </div>
+
+        <div class="scoreRow">
+          <div class="bar">
+            <div class="barTop"><span>타선</span><span id="sBat">8 / 10</span></div>
+            <div class="track"><div class="fill" id="fBat" style="width:80%"></div></div>
+          </div>
+          <div class="bar">
+            <div class="barTop"><span>선발</span><span id="sSp">7 / 10</span></div>
+            <div class="track"><div class="fill" id="fSp" style="width:70%"></div></div>
+          </div>
+          <div class="bar">
+            <div class="barTop"><span>불펜</span><span id="sRp">5 / 10</span></div>
+            <div class="track"><div class="fill" id="fRp" style="width:50%"></div></div>
+          </div>
+          <div class="bar">
+            <div class="barTop"><span>수비/주루</span><span id="sDef">6 / 10</span></div>
+            <div class="track"><div class="fill" id="fDef" style="width:60%"></div></div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div>ⓘ 저장하면 링크 접속자 모두에 반영</div>
+          <div id="lastSaved">-</div>
+        </div>
+      </aside>
+    </div>
+  </div>
 
 <script>
-
-/* 🔥 JSONBIN 정보 입력 */
-const BIN_ID = "여기에_BIN_ID";
-const API_KEY = "여기에_MASTER_KEY";
+/* ===========================
+   🔥 여기 두 개는 네 값 유지
+=========================== */
+const BIN_ID = "699ecd92d0ea881f40d7b617";
+const API_KEY = "$2a$10$d5TJizvOJtO5HiDV86xc/.eqZSyZZnwf0.VoJo/QBUR1m2jGwYcJq";
+/* =========================== */
 
 const url = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
+const $ = (id) => document.getElementById(id);
+const fields = ["overview","strength","weakness","rank","scenario","championship","players"];
+
+function setStatus(msg, isErr=false){
+  $("status").textContent = isErr ? "" : msg;
+  $("err").textContent = isErr ? msg : "";
+  if(!isErr && msg){
+    setTimeout(()=> $("status").textContent="", 2200);
+  }
+}
+
+function updatePreview(){
+  $("rankPreview").textContent = $("rank").value?.trim() || "-";
+}
+
+function nowStamp(){
+  const d = new Date();
+  return d.toLocaleString("ko-KR");
+}
+
 async function load() {
-  const res = await fetch(url, {
-    headers: { "X-Master-Key": API_KEY }
-  });
-  const data = await res.json();
-  const r = data.record;
+  try{
+    setStatus("불러오는 중…");
+    const res = await fetch(url, { headers: { "X-Master-Key": API_KEY }});
+    if(!res.ok) throw new Error("불러오기 실패: " + res.status);
+    const data = await res.json();
+    const r = data.record || {};
 
-  if(!r) return;
+    // 최초 빈 bin이면 기본값 세팅
+    const defaults = {
+      overview:
+`삼성 라이온즈는 2026 시즌 상위권 경쟁이 가능한 전력을 갖추고 있다.
+타선 중심의 파괴력은 강점이며, 선발진은 중상위권 수준을 기대할 수 있다.
+다만 최종 성패는 불펜 안정화(접전 승률)에 크게 좌우된다.`,
+      strength:
+`- 중심 타선의 장타력
+- 상위 타순 출루 능력
+- 득점 생산 구조(끊김 최소화)
+- 선발 1~2선발 안정감`,
+      weakness:
+`- 불펜 기복(7~9회 운영)
+- 접전 경기 승률 변수
+- 주전 체력/부상 리스크`,
+      rank: `3~5위권 (와일드카드~준PO 예상)`,
+      scenario:
+`[Best]
+불펜 안정 + 선발 이닝 증가 → 2~3위권, PO 직행
 
-  document.getElementById("overview").value = r.overview;
-  document.getElementById("strength").value = r.strength;
-  document.getElementById("weakness").value = r.weakness;
-  document.getElementById("rank").value = r.rank;
-  document.getElementById("scenario").value = r.scenario;
-  document.getElementById("championship").value = r.championship;
-  document.getElementById("players").value = r.players;
+[Base]
+타선 유지 + 불펜 평균 수준 → 3~5위권
+
+[Worst]
+불펜 붕괴 + 부상 겹침 → 6~8위권`,
+      championship:
+`기존 강팀 대비 절대적 우위라고 보긴 어렵다.
+다만 포스트시즌 진출 시 단기전에서 업셋이 가능한 “변수형” 전력이다.
+우승 가능성은 불펜 안정화, 외국인/주축 타자 퍼포먼스, 부상 관리에 달려 있다.`,
+      players:
+`- 중심 타선 핵심 타자: 장타 생산 유지 여부
+- 1~2선발: QS 비율/이닝 소화
+- 마무리/필승조: 7~9회 안정성
+- 젊은 불펜 자원: 시즌 중 성장`
+    };
+
+    fields.forEach(k => {
+      $(k).value = (typeof r[k] === "string" && r[k].trim().length) ? r[k] : defaults[k];
+    });
+
+    updatePreview();
+    $("lastSaved").textContent = r._lastSaved ? ("마지막 저장: " + r._lastSaved) : "-";
+    setStatus("불러오기 완료");
+  }catch(e){
+    setStatus(String(e.message || e), true);
+  }
 }
 
 async function save() {
-  const newData = {
-    overview: document.getElementById("overview").value,
-    strength: document.getElementById("strength").value,
-    weakness: document.getElementById("weakness").value,
-    rank: document.getElementById("rank").value,
-    scenario: document.getElementById("scenario").value,
-    championship: document.getElementById("championship").value,
-    players: document.getElementById("players").value
-  };
+  try{
+    setStatus("저장 중…");
+    const newData = {};
+    fields.forEach(k => newData[k] = $(k).value);
 
-  await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "699ecd92d0ea881f40d7b617",
-      "X-Master-Key": "$2a$10$d5TJizvOJtO5HiDV86xc/.eqZSyZZnwf0.VoJo/QBUR1m2jGwYcJq"
-    },
-    body: JSON.stringify(newData)
-  });
+    newData._lastSaved = nowStamp();
 
-  document.getElementById("status").innerText = "저장 완료!";
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY
+      },
+      body: JSON.stringify(newData)
+    });
+
+    if(!res.ok) throw new Error("저장 실패: " + res.status);
+    $("lastSaved").textContent = "마지막 저장: " + newData._lastSaved;
+    setStatus("저장 완료!");
+  }catch(e){
+    setStatus(String(e.message || e), true);
+  }
 }
 
-load();
+fields.forEach(k => $(k).addEventListener("input", updatePreview));
+$("btnPrint").addEventListener("click", () => window.print());
+$("btnRefresh").addEventListener("click", load);
 
+load();
 </script>
 
 </body>

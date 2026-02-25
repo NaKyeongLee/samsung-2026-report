@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 삼성라이온즈 성적 예측 보고서</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6fa;
+  padding: 40px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #0047A0;
+}
+
+h2 {
+  margin-top: 40px;
+  color: #003070;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 5px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background: #0047A0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.status {
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
+}
+.section {
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>2026 시즌 삼성라이온즈 성적 예측 보고서</h1>
+
+<h2>📊 1. 시즌 종합 전망</h2>
+<textarea id="overview">
+삼성 라이온즈는 2026 시즌 상위권 경쟁이 가능한 전력을 갖추고 있다.
+타선 중심의 파괴력은 리그 상위권이며, 선발진 안정성도 일정 수준 확보되어 있다.
+다만 시즌 성적의 최종 성패는 불펜 안정화 여부에 달려 있다.
+</textarea>
+
+<h2>⚾ 2. 전력 분석</h2>
+<div class="section">
+<strong>강점</strong>
+<textarea id="strength">
+- 중심 타선의 장타력
+- 상위 타순 출루 능력
+- 득점 생산 구조 안정
+- 선발 1~2선발 경쟁력
+</textarea>
+</div>
+
+<div class="section">
+<strong>약점</strong>
+<textarea id="weakness">
+- 불펜 기복
+- 접전 경기 후반 운영
+- 시즌 중 부상 리스크
+</textarea>
+</div>
+
+<h2>🔮 3. 예상 순위 및 시나리오</h2>
+<input id="rank" value="3~5위권 (와일드카드~준PO 예상)">
+
+<textarea id="scenario">
+[Best Scenario]
+불펜 안정 + 선발 이닝 증가 → 1~2위권 PO 직행
+
+[Base Scenario]
+타선 유지 + 불펜 평균 수준 → 3~5위권
+
+[Worst Scenario]
+불펜 붕괴 + 부상 겹침 → 6~8위권
+</textarea>
+
+<h2>🏆 4. 우승 가능성 분석</h2>
+<textarea id="championship">
+LG, SSG 등 기존 강팀 대비 절대적 우위라고 할 수 있기에,
+포스트시즌 진출은 사실상 확정이다.
+우승 확률은 '최고 수준'으로 평가된다.
+</textarea>
+
+<h2>⭐ 5. 기대 선수 및 핵심 변수</h2>
+<textarea id="players">
+- 중심 타선 핵심 타자 (장타 생산 유지 여부)
+- 1~2선발 (QS 비율 중요)
+- 마무리 투수 (7~9회 안정성)
+- 젊은 불펜 자원 성장 여부
+</textarea>
+
+<button onclick="save()">저장하기</button>
+<div class="status" id="status"></div>
+
+</div>
+
+<script>
+
+/* 🔥 JSONBIN 정보 입력 */
+const BIN_ID = "여기에_BIN_ID";
+const API_KEY = "여기에_MASTER_KEY";
+
+const url = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+async function load() {
+  const res = await fetch(url, {
+    headers: { "X-Master-Key": API_KEY }
+  });
+  const data = await res.json();
+  const r = data.record;
+
+  if(!r) return;
+
+  document.getElementById("overview").value = r.overview;
+  document.getElementById("strength").value = r.strength;
+  document.getElementById("weakness").value = r.weakness;
+  document.getElementById("rank").value = r.rank;
+  document.getElementById("scenario").value = r.scenario;
+  document.getElementById("championship").value = r.championship;
+  document.getElementById("players").value = r.players;
+}
+
+async function save() {
+  const newData = {
+    overview: document.getElementById("overview").value,
+    strength: document.getElementById("strength").value,
+    weakness: document.getElementById("weakness").value,
+    rank: document.getElementById("rank").value,
+    scenario: document.getElementById("scenario").value,
+    championship: document.getElementById("championship").value,
+    players: document.getElementById("players").value
+  };
+
+  await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Master-Key": API_KEY
+    },
+    body: JSON.stringify(newData)
+  });
+
+  document.getElementById("status").innerText = "저장 완료!";
+}
+
+load();
+
+</script>
+
+</body>
+</html>

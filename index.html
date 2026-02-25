@@ -4,93 +4,249 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>2026 삼성 라이온즈 성적 예측 보고서</title>
+<meta name="description" content="레트로 테마의 2026 삼성 라이온즈 성적 예측 보고서 (공유/저장 가능)" />
 
+<!-- 프린트(PDF) 스타일도 포함 -->
 <style>
   :root{
-    --bg:#0b1220;
-    --card:#0f1a33cc;
-    --card2:#0f1a33;
-    --line:#1f2f58;
-    --text:#eaf0ff;
-    --muted:#b7c6ff;
-    --brand:#1e5cff;   /* Lions blue 느낌 */
-    --brand2:#7aa2ff;
+    /* Samsung-ish blue + retro navy + silver */
+    --ink:#0a1020;
+    --night:#070b12;
+    --navy:#0b1836;
+    --panel:#0f2346cc;
+    --panelSolid:#0f2346;
+    --line:#2a4476;
+    --text:#eaf2ff;
+    --muted:#b8c7ff;
+
+    --blue:#1e5cff;
+    --blue2:#7aa2ff;
+    --silver:#cbd5e1;
+    --gold:#ffcc66;
+
+    --grass1:#0e7a3e;
+    --grass2:#0a5f31;
+
     --good:#2bd576;
     --warn:#ffb020;
     --bad:#ff5c7a;
-    --shadow: 0 18px 45px rgba(0,0,0,.35);
-    --radius:16px;
+
+    --radius:18px;
+    --shadow: 0 18px 55px rgba(0,0,0,.42);
+
+    /* Retro font stack */
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
   }
 
-  *{box-sizing:border-box}
+  *{ box-sizing:border-box; }
+  html, body{ height:100%; }
   body{
     margin:0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
+    font-family: var(--font);
+    color: var(--text);
+
+    /* Lions Park vibe:
+       - night sky
+       - stadium lights glow
+       - subtle seat/stripe texture
+       - grass band at bottom */
     background:
-      radial-gradient(1200px 700px at 10% 10%, rgba(30,92,255,.35), transparent 55%),
-      radial-gradient(1000px 600px at 90% 0%, rgba(122,162,255,.22), transparent 55%),
-      radial-gradient(900px 700px at 60% 100%, rgba(43,213,118,.08), transparent 60%),
-      linear-gradient(180deg, #081026, #070b14 60%, #05060b);
-    color:var(--text);
-    padding: 28px 18px 60px;
+      radial-gradient(900px 520px at 12% 12%, rgba(30,92,255,.36), transparent 58%),
+      radial-gradient(780px 460px at 88% 8%, rgba(122,162,255,.22), transparent 60%),
+      radial-gradient(620px 520px at 50% 0%, rgba(255,204,102,.10), transparent 55%),
+      linear-gradient(180deg, #070b12 0%, #05060b 58%, #04050a 72%, #03040a 100%);
+    padding: 28px 18px 70px;
+    overflow-x:hidden;
   }
 
-  .wrap{max-width:1100px; margin:0 auto;}
+  /* Stadium lights (decor) */
+  .lights{
+    position: fixed;
+    inset: 0;
+    pointer-events:none;
+    z-index:0;
+    opacity:.9;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(260px 180px at 10% 18%, rgba(255,255,255,.16), transparent 70%),
+      radial-gradient(260px 180px at 25% 14%, rgba(255,255,255,.12), transparent 72%),
+      radial-gradient(280px 190px at 75% 14%, rgba(255,255,255,.12), transparent 72%),
+      radial-gradient(280px 190px at 90% 18%, rgba(255,255,255,.16), transparent 70%);
+    filter: blur(1px);
+  }
+
+  /* Subtle retro stripe texture */
+  .texture{
+    position: fixed;
+    inset: 0;
+    pointer-events:none;
+    z-index:0;
+    opacity:.22;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,.05) 0px,
+        rgba(255,255,255,.05) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+  }
+
+  /* Grass band at bottom like field */
+  .grass{
+    position: fixed;
+    left:0; right:0; bottom:0;
+    height: 130px;
+    z-index:0;
+    pointer-events:none;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(14,122,62,.10) 10%, rgba(14,122,62,.22) 35%, rgba(10,95,49,.55) 100%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,.06) 0px,
+        rgba(255,255,255,.06) 10px,
+        rgba(255,255,255,.02) 10px,
+        rgba(255,255,255,.02) 20px
+      );
+    mask-image: linear-gradient(180deg, transparent 0%, black 35%, black 100%);
+  }
+
+  .wrap{
+    max-width: 1150px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Topbar like stadium scoreboard */
   .topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:16px; padding:18px 18px; border:1px solid var(--line);
-    background: linear-gradient(180deg, rgba(15,26,51,.86), rgba(15,26,51,.55));
+    position: sticky;
+    top: 14px;
+    z-index: 10;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding: 14px 14px;
+
     border-radius: var(--radius);
+    border: 1px solid rgba(42,68,118,.95);
+    background:
+      linear-gradient(180deg, rgba(15,35,70,.92), rgba(10,16,32,.70));
     box-shadow: var(--shadow);
-    position: sticky; top: 14px; z-index: 10;
     backdrop-filter: blur(10px);
   }
 
   .brand{
-    display:flex; align-items:center; gap:12px; min-width: 260px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-width: 260px;
   }
-  .logo{
-    width:42px; height:42px; border-radius: 12px;
-    background: radial-gradient(circle at 30% 30%, #7aa2ff, #1e5cff 55%, #12339b);
-    box-shadow: 0 10px 22px rgba(30,92,255,.35);
-    display:grid; place-items:center;
-    font-weight:900;
-    letter-spacing:.5px;
+
+  /* Retro emblem - text-only */
+  .emblem{
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    position: relative;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+
+    background:
+      radial-gradient(circle at 30% 25%, rgba(122,162,255,.95), rgba(30,92,255,.95) 55%, rgba(12,35,120,.95) 100%);
+    box-shadow:
+      0 18px 35px rgba(30,92,255,.35),
+      inset 0 0 0 2px rgba(203,213,225,.35);
   }
+  .emblem::before{
+    content:"";
+    position:absolute; inset:-30%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,.10) 0px,
+      rgba(255,255,255,.10) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+    transform: rotate(10deg);
+    opacity:.45;
+  }
+  .emblemInner{
+    position: relative;
+    text-align:center;
+    line-height: 1.0;
+    letter-spacing: .8px;
+    text-shadow: 0 6px 14px rgba(0,0,0,.35);
+  }
+  .emblemTop{
+    font-size: 10px;
+    font-weight: 900;
+    color: rgba(255,255,255,.92);
+  }
+  .emblemMain{
+    font-size: 18px;
+    font-weight: 1000;
+    letter-spacing: 2px;
+    color: white;
+    margin-top: 4px;
+  }
+  .emblemBottom{
+    font-size: 10px;
+    font-weight: 800;
+    color: rgba(255,204,102,.92);
+    margin-top: 4px;
+  }
+
   .titleBlock .h1{
-    font-size: 16px; font-weight: 850; line-height: 1.1;
+    font-size: 15px;
+    font-weight: 950;
+    letter-spacing: .2px;
   }
   .titleBlock .sub{
-    font-size: 12px; color: var(--muted); margin-top: 4px;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--muted);
   }
 
   .actions{
-    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
   }
+
   .btn{
-    appearance:none; border:1px solid var(--line);
+    border: 1px solid rgba(42,68,118,.9);
     background: rgba(255,255,255,.06);
     color: var(--text);
     padding: 10px 12px;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor:pointer;
-    font-weight: 700;
-    transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    font-weight: 850;
+    transition: transform .08s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    user-select:none;
   }
-  .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(122,162,255,.5); }
+  .btn:hover{
+    background: rgba(255,255,255,.09);
+    border-color: rgba(122,162,255,.7);
+    box-shadow: 0 12px 22px rgba(0,0,0,.25);
+  }
   .btn:active{ transform: translateY(1px); }
   .btn.primary{
-    border-color: rgba(30,92,255,.65);
-    background: linear-gradient(180deg, rgba(30,92,255,.95), rgba(18,51,155,.95));
-    box-shadow: 0 10px 22px rgba(30,92,255,.25);
+    border-color: rgba(30,92,255,.85);
+    background: linear-gradient(180deg, rgba(30,92,255,.95), rgba(12,35,120,.95));
+    box-shadow: 0 14px 28px rgba(30,92,255,.22);
   }
-  .btn.primary:hover{ border-color: rgba(122,162,255,.9); }
 
+  /* Layout */
   .grid{
-    margin-top: 18px;
+    margin-top: 16px;
     display:grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 18px;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 16px;
   }
   @media (max-width: 980px){
     .grid{ grid-template-columns: 1fr; }
@@ -98,23 +254,86 @@
   }
 
   .card{
-    border: 1px solid var(--line);
-    background: linear-gradient(180deg, rgba(15,26,51,.78), rgba(15,26,51,.52));
+    border: 1px solid rgba(42,68,118,.9);
     border-radius: var(--radius);
+    background:
+      linear-gradient(180deg, rgba(15,35,70,.78), rgba(10,16,32,.66));
     box-shadow: var(--shadow);
-    padding: 18px;
     backdrop-filter: blur(10px);
+    padding: 16px;
   }
+
+  /* Section headers look like retro ticker */
   .card h2{
     margin: 0 0 10px;
-    font-size: 15px;
-    letter-spacing: .2px;
+    font-size: 14px;
+    font-weight: 950;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.92);
   }
+  .headline{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .ticker{
+    font-size: 12px;
+    color: rgba(255,204,102,.92);
+    border:1px solid rgba(255,204,102,.28);
+    background: rgba(255,204,102,.08);
+    padding: 6px 10px;
+    border-radius: 999px;
+    white-space:nowrap;
+  }
+
+  /* Form */
+  label{
+    display:block;
+    font-size: 12px;
+    color: var(--muted);
+    margin: 10px 0 8px;
+  }
+  textarea, input{
+    width:100%;
+    border:1px solid rgba(42,68,118,.85);
+    background: rgba(4,8,16,.62);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 12px 12px;
+    font-size: 14px;
+    outline:none;
+    transition: border-color .2s ease, background .2s ease, transform .08s ease;
+  }
+  textarea{
+    min-height: 106px;
+    resize: vertical;
+    line-height: 1.55;
+  }
+  textarea:focus, input:focus{
+    border-color: rgba(122,162,255,.92);
+    background: rgba(4,8,16,.78);
+  }
+
+  .twoCol{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 860px){
+    .twoCol{ grid-template-columns: 1fr; }
+  }
+
+  /* Summary pills */
   .metaRow{
-    display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap: 8px;
+    margin-top: 10px;
   }
   .pill{
-    border:1px solid var(--line);
+    border:1px solid rgba(42,68,118,.85);
     background: rgba(255,255,255,.05);
     padding: 7px 10px;
     border-radius: 999px;
@@ -123,32 +342,51 @@
   }
   .pill b{ color: var(--text); }
 
+  .tags{ display:flex; flex-wrap:wrap; gap: 8px; margin-top: 8px; }
+  .tag{
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid rgba(42,68,118,.9);
+    background: rgba(255,255,255,.05);
+  }
+  .tag.good{ border-color: rgba(43,213,118,.35); color: #bff3d7; }
+  .tag.warn{ border-color: rgba(255,176,32,.35); color: #ffe1ad; }
+  .tag.bad{ border-color: rgba(255,92,122,.35); color: #ffc0cc; }
+
+  /* KPI grid */
   .kpis{
+    margin-top: 12px;
     display:grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-  }
-  .kpi{
-    border:1px solid var(--line);
-    background: rgba(255,255,255,.04);
-    border-radius: 14px;
-    padding: 12px;
-  }
-  .kpi .label{ font-size: 12px; color: var(--muted); }
-  .kpi .value{ font-size: 20px; font-weight: 900; margin-top: 6px; }
-  .kpi .hint{ font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-  .scoreRow{
-    margin-top: 12px;
-    display:grid;
-    grid-template-columns: 1fr;
     gap: 10px;
   }
-  .bar{
-    border:1px solid var(--line);
+  .kpi{
+    border:1px solid rgba(42,68,118,.85);
     background: rgba(255,255,255,.04);
-    border-radius: 14px;
+    border-radius: 16px;
+    padding: 12px;
+    position: relative;
+    overflow:hidden;
+  }
+  .kpi::after{
+    content:"";
+    position:absolute;
+    inset:-60% -60%;
+    background: radial-gradient(circle at 30% 30%, rgba(30,92,255,.18), transparent 55%);
+    transform: rotate(8deg);
+    pointer-events:none;
+  }
+  .kpi .label{ font-size: 12px; color: var(--muted); position:relative; }
+  .kpi .value{ font-size: 20px; font-weight: 1000; margin-top: 6px; position:relative; }
+  .kpi .hint{ font-size: 12px; color: var(--muted); margin-top: 4px; position:relative; }
+
+  /* Score bars like scoreboard */
+  .scoreRow{ margin-top: 12px; display:grid; gap: 10px; }
+  .bar{
+    border:1px solid rgba(42,68,118,.85);
+    background: rgba(255,255,255,.04);
+    border-radius: 16px;
     padding: 10px 12px;
   }
   .barTop{
@@ -157,166 +395,135 @@
     margin-bottom: 8px;
   }
   .track{
-    width:100%; height: 10px;
-    background: rgba(255,255,255,.06);
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,.07);
     border-radius: 999px;
     overflow:hidden;
   }
   .fill{
     height:100%;
-    background: linear-gradient(90deg, rgba(30,92,255,.9), rgba(122,162,255,.9));
-    width: 50%;
+    width:50%;
+    background: linear-gradient(90deg, rgba(30,92,255,.95), rgba(122,162,255,.95));
   }
+  .fill.warn{ background: linear-gradient(90deg, rgba(255,176,32,.95), rgba(255,204,102,.95)); }
+  .fill.bad{ background: linear-gradient(90deg, rgba(255,92,122,.95), rgba(255,140,160,.95)); }
 
-  .field{
-    margin-top: 12px;
-  }
-  label{
-    display:block;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  textarea, input{
-    width:100%;
-    border:1px solid var(--line);
-    background: rgba(5,8,16,.55);
-    color: var(--text);
-    border-radius: 14px;
-    padding: 12px 12px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color .2s ease, background .2s ease;
-  }
-  textarea{
-    min-height: 110px;
-    resize: vertical;
-    line-height: 1.5;
-  }
-  textarea:focus, input:focus{
-    border-color: rgba(122,162,255,.75);
-    background: rgba(5,8,16,.72);
-  }
-
-  .twoCol{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  @media (max-width: 820px){
-    .twoCol{ grid-template-columns: 1fr; }
-  }
-
-  .tags{
-    display:flex; flex-wrap:wrap; gap:8px; margin-top: 8px;
-  }
-  .tag{
-    padding: 7px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    border:1px solid var(--line);
-    background: rgba(255,255,255,.05);
-  }
-  .tag.good{ border-color: rgba(43,213,118,.35); color: #bff3d7; }
-  .tag.warn{ border-color: rgba(255,176,32,.35); color: #ffe1ad; }
-  .tag.bad{ border-color: rgba(255,92,122,.35); color: #ffc0cc; }
-
-  .footer{
-    margin-top: 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap: 12px;
-    color: var(--muted);
-    font-size: 12px;
-    opacity: .95;
-  }
+  /* Status */
   .status{
     margin-top: 10px;
     font-size: 12px;
     color: #bff3d7;
   }
-  .danger{ color: #ffc0cc; }
+  .error{
+    margin-top: 8px;
+    font-size: 12px;
+    color: #ffc0cc;
+  }
+
+  /* Footer */
+  .footer{
+    margin-top: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    opacity:.95;
+  }
+
+  /* Print/PDF */
+  @media print{
+    body{ background: white; color: #111; padding:0; }
+    .lights,.texture,.grass{ display:none; }
+    .topbar{ position: static; box-shadow:none; }
+    .card{ box-shadow:none; background:white; color:#111; }
+    textarea,input{ border:1px solid #ddd; background:white; color:#111; }
+    .btn{ display:none; }
+    .wrap{ max-width: 900px; }
+  }
 </style>
 </head>
 
 <body>
+  <div class="lights"></div>
+  <div class="texture"></div>
+  <div class="grass"></div>
+
   <div class="wrap">
     <header class="topbar">
       <div class="brand">
-        <div class="emblem">
-            <div class="emblem-inner">
-                 <div class="emblem-top">SAMSUNG</div>
-                  <div class="emblem-main">LIONS</div>
-                  <div class="emblem-year">2026 REPORT</div>
-  </div>
-</div>
+        <div class="emblem" aria-label="Samsung Lions emblem (text)">
+          <div class="emblemInner">
+            <div class="emblemTop">SAMSUNG</div>
+            <div class="emblemMain">LIONS</div>
+            <div class="emblemBottom">PARK EDITION</div>
+          </div>
+        </div>
         <div class="titleBlock">
           <div class="h1">2026 시즌 삼성 라이온즈 성적 예측 보고서</div>
-          <div class="sub">전력 요약 · 예상 순위 · 시나리오 · 우승 가능성 · 기대 요소</div>
+          <div class="sub">레트로 · 라이온즈파크 감성 · 공유/저장형 리포트</div>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn" id="btnRefresh" title="DB에서 다시 불러오기">새로 불러오기</button>
-        <button class="btn" id="btnPrint" title="PDF로 저장(인쇄)">PDF 저장</button>
-        <button class="btn primary" onclick="save()">저장</button>
+        <button class="btn" id="btnReload" title="DB에서 다시 불러오기">새로 불러오기</button>
+        <button class="btn" id="btnPrint" title="PDF 저장">PDF 저장</button>
+        <button class="btn primary" id="btnSave">저장</button>
       </div>
     </header>
 
     <div class="grid">
-      <!-- Left: Editor -->
+      <!-- Editor -->
       <section class="card">
-        <h2>✍️ 보고서 편집</h2>
-
-        <div class="field">
-          <label>1) 시즌 종합 전망</label>
-          <textarea id="overview"></textarea>
+        <div class="headline">
+          <h2>REPORT EDITOR</h2>
+          <span class="ticker">LIONS PARK NIGHT GAME MODE</span>
         </div>
 
+        <label>1) 시즌 종합 전망</label>
+        <textarea id="overview"></textarea>
+
         <div class="twoCol">
-          <div class="field">
+          <div>
             <label>2) 강점</label>
             <textarea id="strength"></textarea>
           </div>
-          <div class="field">
+          <div>
             <label>3) 약점</label>
             <textarea id="weakness"></textarea>
           </div>
         </div>
 
-        <div class="field">
-          <label>4) 예상 순위 (한 줄)</label>
-          <input id="rank" placeholder="예: 3~5위권 (와일드카드~준PO 예상)" />
-        </div>
+        <label>4) 예상 순위 (한 줄)</label>
+        <input id="rank" placeholder="예: 3~5위권 (와일드카드~준PO 예상)" />
 
-        <div class="field">
-          <label>5) 시나리오 (Best/Base/Worst)</label>
-          <textarea id="scenario"></textarea>
-        </div>
+        <label>5) 시나리오 (Best/Base/Worst)</label>
+        <textarea id="scenario"></textarea>
 
-        <div class="field">
-          <label>6) 우승 가능성 분석</label>
-          <textarea id="championship"></textarea>
-        </div>
+        <label>6) 우승 가능성 분석</label>
+        <textarea id="championship"></textarea>
 
-        <div class="field">
-          <label>7) 기대 선수 / 핵심 변수</label>
-          <textarea id="players"></textarea>
-        </div>
+        <label>7) 기대 선수 / 핵심 변수</label>
+        <textarea id="players"></textarea>
 
         <div class="status" id="status"></div>
-        <div class="status danger" id="err"></div>
+        <div class="error" id="err"></div>
       </section>
 
-      <!-- Right: Summary / KPI -->
+      <!-- Summary -->
       <aside class="card">
-        <h2>📌 한 눈에 보기</h2>
+        <div class="headline">
+          <h2>STADIUM BOARD</h2>
+          <span class="ticker">2026 OUTLOOK</span>
+        </div>
+
         <div class="tags">
           <span class="tag good">강점: 타선</span>
           <span class="tag good">강점: 득점 생산</span>
           <span class="tag warn">변수: 불펜</span>
-          <span class="tag warn">변수: 부상/외인</span>
+          <span class="tag warn">변수: 외인/체력</span>
         </div>
 
         <div class="metaRow">
@@ -334,7 +541,7 @@
           <div class="kpi">
             <div class="label">우승 가능성(가늠)</div>
             <div class="value" id="kpiTitleOdds">중간</div>
-            <div class="hint">PO 진출 후 업셋</div>
+            <div class="hint">PO 업셋 시나리오</div>
           </div>
           <div class="kpi">
             <div class="label">PO 가능성(가늠)</div>
@@ -344,7 +551,7 @@
           <div class="kpi">
             <div class="label">핵심 변수</div>
             <div class="value" id="kpiKeyVar">불펜</div>
-            <div class="hint">접전 승률 좌우</div>
+            <div class="hint">7~9회 안정성</div>
           </div>
         </div>
 
@@ -359,7 +566,7 @@
           </div>
           <div class="bar">
             <div class="barTop"><span>불펜</span><span id="sRp">5 / 10</span></div>
-            <div class="track"><div class="fill" id="fRp" style="width:50%"></div></div>
+            <div class="track"><div class="fill warn" id="fRp" style="width:50%"></div></div>
           </div>
           <div class="bar">
             <div class="barTop"><span>수비/주루</span><span id="sDef">6 / 10</span></div>
@@ -368,7 +575,7 @@
         </div>
 
         <div class="footer">
-          <div>ⓘ 저장하면 링크 접속자 모두에 반영</div>
+          <div>ⓘ 저장하면 공유 링크 접속자 모두 반영</div>
           <div id="lastSaved">-</div>
         </div>
       </aside>
@@ -377,27 +584,29 @@
 
 <script>
 /* ===========================
-   🔥 여기 두 개는 네 값 유지
+   🔥 네 값으로 교체
 =========================== */
 const BIN_ID = "699ecd92d0ea881f40d7b617";
 const API_KEY = "$2a$10$d5TJizvOJtO5HiDV86xc/.eqZSyZZnwf0.VoJo/QBUR1m2jGwYcJq";
 /* =========================== */
 
-const url = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-
 const $ = (id) => document.getElementById(id);
 const fields = ["overview","strength","weakness","rank","scenario","championship","players"];
 
-function setStatus(msg, isErr=false){
-  $("status").textContent = isErr ? "" : msg;
-  $("err").textContent = isErr ? msg : "";
-  if(!isErr && msg){
-    setTimeout(()=> $("status").textContent="", 2200);
+// Cache busting: load할 때 URL에 버전 붙여서 브라우저 캐시 영향 최소화
+const baseUrl = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const noCacheUrl = () => `${baseUrl}?v=${Date.now()}`;
+
+function setMsg(okMsg="", errMsg=""){
+  $("status").textContent = okMsg || "";
+  $("err").textContent = errMsg || "";
+  if(okMsg){
+    setTimeout(()=> { $("status").textContent=""; }, 2200);
   }
 }
 
 function updatePreview(){
-  $("rankPreview").textContent = $("rank").value?.trim() || "-";
+  $("rankPreview").textContent = ($("rank").value || "").trim() || "-";
 }
 
 function nowStamp(){
@@ -405,15 +614,17 @@ function nowStamp(){
   return d.toLocaleString("ko-KR");
 }
 
-async function load() {
+async function load(){
   try{
-    setStatus("불러오는 중…");
-    const res = await fetch(url, { headers: { "X-Master-Key": API_KEY }});
-    if(!res.ok) throw new Error("불러오기 실패: " + res.status);
+    setMsg("불러오는 중…", "");
+    const res = await fetch(noCacheUrl(), {
+      headers: { "X-Master-Key": API_KEY, "Cache-Control":"no-cache" }
+    });
+    if(!res.ok) throw new Error("불러오기 실패: HTTP " + res.status);
+
     const data = await res.json();
     const r = data.record || {};
 
-    // 최초 빈 bin이면 기본값 세팅
     const defaults = {
       overview:
 `삼성 라이온즈는 2026 시즌 상위권 경쟁이 가능한 전력을 갖추고 있다.
@@ -426,7 +637,7 @@ async function load() {
 - 선발 1~2선발 안정감`,
       weakness:
 `- 불펜 기복(7~9회 운영)
-- 접전 경기 승률 변수
+- 접전 경기 후반 운영
 - 주전 체력/부상 리스크`,
       rank: `3~5위권 (와일드카드~준PO 예상)`,
       scenario:
@@ -449,49 +660,52 @@ async function load() {
 - 젊은 불펜 자원: 시즌 중 성장`
     };
 
-    fields.forEach(k => {
-      $(k).value = (typeof r[k] === "string" && r[k].trim().length) ? r[k] : defaults[k];
+    fields.forEach(k=>{
+      const v = (typeof r[k] === "string" && r[k].trim().length) ? r[k] : defaults[k];
+      $(k).value = v;
     });
 
     updatePreview();
     $("lastSaved").textContent = r._lastSaved ? ("마지막 저장: " + r._lastSaved) : "-";
-    setStatus("불러오기 완료");
+    setMsg("불러오기 완료", "");
   }catch(e){
-    setStatus(String(e.message || e), true);
+    setMsg("", String(e.message || e));
   }
 }
 
-async function save() {
+async function save(){
   try{
-    setStatus("저장 중…");
-    const newData = {};
-    fields.forEach(k => newData[k] = $(k).value);
+    setMsg("저장 중…", "");
+    const payload = {};
+    fields.forEach(k => payload[k] = $(k).value);
 
-    newData._lastSaved = nowStamp();
+    payload._lastSaved = nowStamp();
 
-    const res = await fetch(url, {
+    const res = await fetch(baseUrl, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": API_KEY
+      headers:{
+        "Content-Type":"application/json",
+        "X-Master-Key": API_KEY,
+        "Cache-Control":"no-cache"
       },
-      body: JSON.stringify(newData)
+      body: JSON.stringify(payload)
     });
 
-    if(!res.ok) throw new Error("저장 실패: " + res.status);
-    $("lastSaved").textContent = "마지막 저장: " + newData._lastSaved;
-    setStatus("저장 완료!");
+    if(!res.ok) throw new Error("저장 실패: HTTP " + res.status);
+
+    $("lastSaved").textContent = "마지막 저장: " + payload._lastSaved;
+    setMsg("저장 완료!", "");
   }catch(e){
-    setStatus(String(e.message || e), true);
+    setMsg("", String(e.message || e));
   }
 }
 
-fields.forEach(k => $(k).addEventListener("input", updatePreview));
+$("btnSave").addEventListener("click", save);
+$("btnReload").addEventListener("click", load);
 $("btnPrint").addEventListener("click", () => window.print());
-$("btnRefresh").addEventListener("click", load);
+fields.forEach(k => $(k).addEventListener("input", updatePreview));
 
 load();
 </script>
-
 </body>
 </html>
